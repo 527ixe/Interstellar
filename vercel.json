@@ -13,12 +13,3 @@
     }
   ]
 }
-{
-  "experimental": {
-    "passwordProtection": {
-      "username": "xeqlr",
-      "password": "interstellar",
-      "message": "Access denied"
-    }
-  }
-}
