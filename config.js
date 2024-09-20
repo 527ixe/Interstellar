@@ -7,7 +7,9 @@ const config = {
   },
   users: {
     // You can add multiple users by doing username: 'password'.
-    interstellar: "testpwd123",
+    interstellar: "school123",
+    admin: "jonathan12#3", 
+    
   },
 };
 
