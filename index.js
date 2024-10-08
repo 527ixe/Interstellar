@@ -96,19 +96,26 @@ app.use(express.urlencoded({ extended: true }));
 
 const blocked = Object.keys(config.blocked);
 
-app.get("/assets/js/main.js", (req, res) => {
+app.get("/assets/js/m.js", (req, res) => {
   const hostname = req.hostname;
-  const main = path.join(__dirname, "static/assets/js/main.js");
+
+  const isBlocked = blocked.some(domain => {
+    if (hostname === domain) return true;
+    return hostname.endsWith(`.${domain}`);
+  });
+
+  const main = path.join(__dirname, "static/assets/js/m.js");
+
+  // console.log(`Checking hostname: ${hostname}, Blocked: ${isBlocked}`);
 
   try {
-    if (blocked.includes(hostname)) {
+    if (isBlocked) {
       fs.readFile(main, "utf8", (err, data) => {
         if (err) {
           console.error("Error reading the file:", err);
           return res.status(500).send("Something went wrong.");
         }
-        const script = data.split("\n").slice(8).join("\n");
-        // console.log(`Rewriting for hostname: ${hostname}`);
+        const script = data.split("\n").slice(9).join("\n");
         res.type("application/javascript").send(script);
       });
     } else {
@@ -128,7 +135,6 @@ const routes = [
   { path: "/up", file: "games.html" },
   { path: "/vk", file: "settings.html" },
   { path: "/rx", file: "tabs.html" },
-  { path: "/gt", file: "tools.html" },
   { path: "/", file: "index.html" },
   { path: "/tos", file: "tos.html" },
   { path: "/privacy", file: "privacy.html" },
